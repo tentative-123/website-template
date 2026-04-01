@@ -195,6 +195,7 @@ npx serve .
 
 - 視覺與版面：`styles.css`
 - 互動行為：`script.js`
+- 圖片檔名與上傳對應：`images/UPLOAD-GUIDE.md`
 
 ---
 
