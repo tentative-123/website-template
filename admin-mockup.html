@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>網站後台草圖 | 內容管理介面</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-body">
+  <header class="admin-header">
+    <div class="admin-header-inner">
+      <div class="brand">
+        <span class="brand-mark">CMS</span>
+        <span class="brand-text">
+          <strong>網站內容管理後台</strong>
+          <small>可直接修改網站內文，並同步前台預覽</small>
+        </span>
+      </div>
+      <div class="admin-header-actions">
+        <span class="admin-mode-badge" id="admin-mode-badge">本機模式</span>
+        <div class="language-switch" aria-label="Language switcher">
+          <button type="button" data-admin-language="zh" aria-pressed="false">中文</button>
+          <button type="button" data-admin-language="en" aria-pressed="false">EN</button>
+        </div>
+        <button class="button button-secondary" type="button" id="admin-export">匯出 JSON</button>
+        <label class="button button-secondary admin-import-button" for="admin-import-file">匯入 JSON</label>
+        <input id="admin-import-file" type="file" accept="application/json" hidden>
+        <button class="button button-secondary" type="button" id="admin-reset">還原此語言</button>
+        <button class="button button-secondary" type="button" id="admin-logout" hidden>登出</button>
+        <button class="button button-primary" type="button" id="admin-save">儲存全部變更</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-card">
+        <h2>頁面選單</h2>
+        <nav class="admin-page-nav" id="admin-page-nav"></nav>
+      </div>
+
+      <div class="admin-card">
+        <h2>操作提示</h2>
+        <ul class="admin-tips">
+          <li>左側先選頁面，再直接修改欄位內容。</li>
+          <li>儲存後，前台網站會立即讀取新的內容。</li>
+          <li>如果要交給別台電腦，可先匯出 JSON 再匯入。</li>
+          <li>右側預覽會同步目前頁面與語言。</li>
+        </ul>
+      </div>
+    </aside>
+
+    <section class="admin-main">
+      <div class="admin-card" id="admin-auth-card" hidden>
+        <div class="admin-section-title">
+          <div>
+            <p class="admin-label">後台登入</p>
+            <h2>請先登入管理帳號</h2>
+          </div>
+        </div>
+        <form id="admin-login-form" class="admin-form-grid">
+          <label class="admin-field">
+            <span>Email</span>
+            <small>請輸入 Supabase Auth 建立的管理員帳號</small>
+            <input type="email" name="email" placeholder="admin@example.com" required>
+          </label>
+          <label class="admin-field">
+            <span>密碼</span>
+            <small>登入成功後才能修改雲端內容</small>
+            <input type="password" name="password" placeholder="請輸入密碼" required>
+          </label>
+          <div class="admin-field admin-field-wide">
+            <button class="button button-primary" type="submit">登入後台</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="admin-card admin-toolbar">
+        <div>
+          <p class="admin-label">目前編輯頁面</p>
+          <h1 id="admin-page-title">首頁內容</h1>
+        </div>
+        <div class="admin-status">
+          <span class="status-pill" id="admin-status-pill">尚未儲存</span>
+          <span class="status-note" id="admin-status-note">請修改欄位後按右上角儲存</span>
+        </div>
+      </div>
+
+      <div id="admin-editor-root" class="admin-main-panels"></div>
+    </section>
+
+    <aside class="admin-preview">
+      <div class="admin-card sticky-preview">
+        <div class="admin-section-title">
+          <div>
+            <p class="admin-label">即時預覽</p>
+            <h2 id="admin-preview-title">首頁畫面示意</h2>
+          </div>
+          <a class="button button-secondary" id="admin-open-preview" href="index.html" target="_blank" rel="noreferrer">開新視窗預覽</a>
+        </div>
+
+        <div class="admin-preview-frame-wrap">
+          <iframe id="admin-preview-frame" title="網站預覽"></iframe>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="content-store.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
