@@ -28,3 +28,25 @@ if (contactForm) {
     window.alert(contactForm.dataset.alertMessage || "這是展示版表單。提供正式信箱或 API 後，我可以幫你接上真正的詢價流程。");
   });
 }
+
+
+const swapSvgPlaceholdersToJpg = async () => {
+  const images = [...document.querySelectorAll('img.media-image[src$=".svg"]')];
+
+  await Promise.all(
+    images.map(async (img) => {
+      const jpgSrc = img.getAttribute("src").replace(/\.svg$/i, ".jpg");
+
+      try {
+        const response = await fetch(jpgSrc, { method: "HEAD", cache: "no-store" });
+        if (response.ok) {
+          img.src = jpgSrc;
+        }
+      } catch {
+        // Keep the SVG placeholder when JPG is unavailable.
+      }
+    })
+  );
+};
+
+swapSvgPlaceholdersToJpg();
